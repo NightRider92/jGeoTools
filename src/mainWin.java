@@ -2,21 +2,12 @@
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.security.MessageDigest;
-import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.SwingWorker;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.UIManager;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  *
@@ -229,34 +220,16 @@ public class mainWin extends javax.swing.JFrame {
         int response = openDialog.showOpenDialog(this);
 
         if (response == JFileChooser.APPROVE_OPTION) {
-            try {
-                file = openDialog.getSelectedFile();
-                List<String> data = (List<String>) WGS.Import(file.getPath());
-                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-
-                // Clears table
-                model.setRowCount(0);
-
-                // Run extraction of data in Swing thread
-                SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                    @Override
-                    protected Void doInBackground() throws Exception {
-                        // Split WGS84 data by whitespaces (more than one),
-                        // tabs and commas and insert delimited data into table
-                        if (data.size() > 0) {
-                            data.stream().map((data1) -> data1.split("[ ]{2,}|\t|,")).forEach((line) -> {
-                                model.addRow(new Object[]{line[0], line[1], line[2], line[3]});
-                            });
-                        }
-                        return null;
-                    }
-                };
-                worker.execute();
-            } catch (FileNotFoundException ex) {
-                Message.FileNotFound();
-            } catch (IOException ex) {
-                Message.UnknownIOException();
-            }
+            // Run extraction of data in Swing thread
+            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+                @Override
+                protected Void doInBackground() throws Exception {
+                    file = openDialog.getSelectedFile();
+                    WGS.importData(file.getPath(), jTable1);
+                    return null;
+                }
+            };
+            worker.execute();
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
