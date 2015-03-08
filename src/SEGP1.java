@@ -20,7 +20,7 @@ public class SEGP1 {
 
     /**
      * Requests data from JTable in application with modified "Point" input and
-     * "Height" input "Latitude" and "Longitude" are unmodified because we need
+     * "Height" input, "Latitude" and "Longitude" are unmodified because we need
      * to export different kind of data (degree and decimal)
      *
      * @param table is the JTable in application
@@ -75,7 +75,7 @@ public class SEGP1 {
                     height = Integer.toString(heightN);
                 }
             } else {
-                Message.InvalidHeight();
+                // Message.InvalidHeight();
                 return null;
             }
             data.add(new String[]{point, latitude, longitude, height});
@@ -100,22 +100,17 @@ public class SEGP1 {
                 // Remove all special data (like degree symbols ... ) from strings
                 String point = dataDEG1[0];
                 String latitude = dataDEG1[1].replaceAll("[^\\dA-Za-z ]", "").replaceAll("\\s+", "").substring(0, 8) + "N";
-                String longitude = dataDEG1[2].replaceAll("[^\\dA-Za-z ]", ""); //.substring(0, 8) + "E";
+                String longitude = dataDEG1[2].replaceAll("[^\\dA-Za-z ]", "").replaceAll("\\s+", "");
                 String longitude_result;
 
-                // Split longitude (long range is 0 to 180 degrees) so we can check if
-                // degrees are below 100 so we can add "0" in front of the number,
-                // otherwise remove leading zero
-                String[] lat_split = latitude.split("\\s+");
                 String[] long_split = longitude.split("\\s+");
-
                 Float longitude_degrees = Float.valueOf(long_split[0]);
 
                 // We check if degrees are below 100.0 degrees
                 if (longitude_degrees < 100.0f) {
-                    longitude_result = "0" + longitude.replaceAll("\\s+", "").substring(0, 8) + "E";
+                    longitude_result = "0" + longitude.substring(0, 8) + "E";
                 } else {
-                    longitude_result = longitude.replaceAll("\\s+", "").substring(0, 9) + "E";
+                    longitude_result = longitude.substring(0, 9) + "E";
                 }
 
                 String height = "0" + dataDEG1[3];
