@@ -26,12 +26,20 @@ public class Message {
         JOptionPane.showMessageDialog(null, "Longitude in your data is not valid.\r\nConversion will now stop!", AppName, JOptionPane.ERROR_MESSAGE);
     }
 
+    public static void InvalidLatitude() {
+        JOptionPane.showMessageDialog(null, "Latitude in your data is not valid.\r\nConversion will now stop!", AppName, JOptionPane.ERROR_MESSAGE);
+    }
+
     public static void InvalidHeight() {
-        JOptionPane.showMessageDialog(null, "Geodetic height is above 9000.0 meters.\r\nConversion will now stop!", AppName, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Geodetic height is 9000.0 meters or above.\r\nConversion will now stop!", AppName, JOptionPane.ERROR_MESSAGE);
     }
 
     public static void FileNotFound() {
         JOptionPane.showMessageDialog(null, "An error in application has occured!\r\nFile has not been found.", AppName, JOptionPane.ERROR_MESSAGE);
+    }
+
+    public static void InvalidEncoding() {
+        JOptionPane.showMessageDialog(null, "An error in application has occured!\r\nInvalid encoding has been detected.", AppName, JOptionPane.ERROR_MESSAGE);
     }
 
     public static void UnknownIOException() {
